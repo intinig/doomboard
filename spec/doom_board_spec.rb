@@ -62,4 +62,13 @@ describe DoomBoard do
       Pixel.new << Pixel.new << Pixel.new << Pixel.new << Pixel.new << 
       Pixel.new << Pixel.new(:hex => "#ffffff") << Pixel.new << Pixel.new << Pixel.new
   end
+  
+  it "should have a snake mode" do
+    board = DoomBoard.new(:rows => 3, :columns => 3, :snake => true)
+    board.pixel(3,3).hex "#ffffff"
+    board.to_str.should == '' <<
+    Pixel.new << Pixel.new << Pixel.new <<
+    Pixel.new(:hex => "#ffffff") << Pixel.new << Pixel.new <<
+    Pixel.new << Pixel.new << Pixel.new
+  end
 end

@@ -10,16 +10,29 @@ class DoomBoard
     @sender = options.delete(:sender) || "10.7.93.1"
     @receiver = options.delete(:receiver) || "10.7.93.217"
     @port = options.delete(:port) || 6454
+    @snake = options.delete(:snake) ? true : false
     
     @artnet = RArtNet.new(@sender, @receiver, @port)
     
     @pixels = Array.new(@rows * @columns) {Pixel.new}
+    
   end
   
   def to_str
-    @pixels.map do |p|
-      p.to_str
-    end.join("")
+    if @snake
+      results = ''
+      @rows.times do |i|
+        @columns.times do |j|
+          my_pixel = i % 2 == 1 ? pixel(j, i) : pixel(@columns - j - 1, i)
+          results << my_pixel
+        end
+      end
+      results
+    else
+      @pixels.map do |p|
+        p.to_str
+      end.join("")
+    end
   end
   
   def render
@@ -32,4 +45,5 @@ class DoomBoard
   def pixel(x, y)
     pixels[self.columns * (y - 1) + x - 1] 
   end
+  
 end
